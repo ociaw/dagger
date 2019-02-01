@@ -1,14 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>0.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Provides a very basic implementation of a Directed Acyclic Graph</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <Authors>ociaw</Authors>
     <Company></Company>
     <Copyright />
+    <PackageProjectUrl>https://github.com/ociaw/dagger</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ociaw/dagger.git</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
