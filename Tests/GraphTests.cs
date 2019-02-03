@@ -111,5 +111,29 @@ namespace Dagger.Tests
             Assert.AreEqual(0, layers.Count);
             Assert.AreEqual(4, detached.Count);
         }
+
+        [TestMethod]
+        public void TestTrim()
+        {
+            var graph = new Graph<int, int>();
+            graph.AddNode(1, 1, new[] { 2, 3, 4 });
+            graph.AddNode(2, 4, new[] { 4 });
+            graph.AddNode(3, 9, new[] { 2, 4 });
+            graph.AddNode(4, 16, new int[0]);
+
+            var clone = graph.Clone();
+            clone.Trim(new[] { 3 });
+
+            var (originalLayers, _) = graph.TopologicalSort();
+            var (layers, detached) = clone.TopologicalSort();
+
+            Assert.AreEqual(4, graph.Count);
+            Assert.AreEqual(4, originalLayers.Count);
+            Assert.AreEqual(3, clone.Count);
+            Assert.AreEqual(3, layers.Count);
+            Assert.AreEqual(0, detached.Count);
+            Assert.ThrowsException<ArgumentNullException>(() => clone.Trim(null));
+            Assert.ThrowsException<ArgumentException>(() => clone.RemoveNode(100));
+        }
     }
 }
