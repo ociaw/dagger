@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Dagger.Tests
@@ -37,7 +38,11 @@ namespace Dagger.Tests
             graph.AddNode(1, 1, new int[0]);
             graph.AddNode(6, 1, new[] { 5, 4 });
 
+            var incoming = graph.GetIncoming(1);
+
             Assert.AreEqual(1, graph[1]);
+            Assert.AreEqual(3, incoming.Count);
+            Assert.AreEqual(3, incoming.Distinct().Count());
         }
 
         [TestMethod]
@@ -50,10 +55,12 @@ namespace Dagger.Tests
             graph.AddNode(4, 1, new int[0]);
 
             var (layers, detached) = graph.TopologicalSort();
+            var incoming = graph.GetIncoming(1);
 
             Assert.AreEqual(1, layers.Count);
             Assert.AreEqual(0, detached.Count);
             Assert.AreEqual(4, layers[0].Count);
+            Assert.AreEqual(0, incoming.Count);
         }
 
         [TestMethod]
