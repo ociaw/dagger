@@ -164,6 +164,16 @@ namespace Dagger
         }
 
         /// <summary>
+        /// Gets the incoming eges to a key, regardless if the node has been added or not.
+        /// </summary>
+        public List<TKey> GetOutgoing(TKey key)
+        {
+            if (!OutgoingEdges.TryGetValue(key, out HashSet<TKey> edges))
+                return new List<TKey>();
+            return edges.ToList();
+        }
+
+        /// <summary>
         /// Returns the nodes topologically sorted into layers. Nodes with no outgoing edges are in the first layer,
         /// while nodes that only point to nodes in the first layer are in the second layer, and so on. Any node that
         /// points to a node that has not been added to the graph is considered detached.

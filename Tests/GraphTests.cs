@@ -39,10 +39,13 @@ namespace Dagger.Tests
             graph.AddNode(6, 1, new[] { 5, 4 });
 
             var incoming = graph.GetIncoming(1);
+            var outgoing = graph.GetOutgoing(3);
 
             Assert.AreEqual(1, graph[1]);
             Assert.AreEqual(3, incoming.Count);
             Assert.AreEqual(3, incoming.Distinct().Count());
+            Assert.AreEqual(2, outgoing.Count);
+            Assert.AreEqual(2, outgoing.Distinct().Count());
         }
 
         [TestMethod]
@@ -56,11 +59,13 @@ namespace Dagger.Tests
 
             var (layers, detached) = graph.TopologicalSort();
             var incoming = graph.GetIncoming(1);
+            var outgoing = graph.GetOutgoing(0);
 
             Assert.AreEqual(1, layers.Count);
             Assert.AreEqual(0, detached.Count);
             Assert.AreEqual(4, layers[0].Count);
             Assert.AreEqual(0, incoming.Count);
+            Assert.AreEqual(0, outgoing.Count);
         }
 
         [TestMethod]
