@@ -23,7 +23,7 @@ namespace Dagger
 
         private Dictionary<TKey, HashSet<TKey>> OutgoingEdges { get; } = new Dictionary<TKey, HashSet<TKey>>();
 
-        public Int32 Count => Data.Count;
+        public Int32 Count => OutgoingEdges.Count;
 
         public TData this[TKey key] => Data[key];
 
@@ -43,7 +43,7 @@ namespace Dagger
         /// </summary>
         public void AddNode(TKey key, TData data, IList<TKey> outgoing)
         {
-            if (Data.ContainsKey(key))
+            if (OutgoingEdges.ContainsKey(key))
                 throw new ArgumentException("Node with the provided key already exists.");
             if (CausesCycle(key, outgoing))
                 throw new ArgumentException("Adding this node causes a cycle.");
@@ -58,7 +58,7 @@ namespace Dagger
         /// <param name="key"></param>
         public void RemoveNode(TKey key)
         {
-            if (!Data.ContainsKey(key))
+            if (!OutgoingEdges.ContainsKey(key))
                 throw new ArgumentException("Node does not exist.");
 
             Data.Remove(key);
@@ -79,7 +79,7 @@ namespace Dagger
                 throw new ArgumentNullException(nameof(topKeys));
 
             Queue<TKey> unsearched = new Queue<TKey>(topKeys);
-            HashSet<TKey> unconnected = new HashSet<TKey>(Data.Keys);
+            HashSet<TKey> unconnected = new HashSet<TKey>(OutgoingEdges.Keys);
             while (unsearched.Count != 0)
             {
                 TKey key = unsearched.Dequeue();
@@ -187,12 +187,13 @@ namespace Dagger
 
             List<List<TKey>> layers = new List<List<TKey>> { new List<TKey>() };
             List<TKey> detached = new List<TKey>();
-            foreach (TKey key in Data.Keys)
+            foreach (var kvp in OutgoingEdges)
             {
-                var outgoing = OutgoingEdges[key];
+                TKey key = kvp.Key;
+                HashSet<TKey> destinations = OutgoingEdges[key];
                 if (OutgoingEdges[key].Count == 0)
                     layers[0].Add(key); // If a key has no outgoing edges, it's added to the first layer
-                else if (outgoing.Any(e => !Data.ContainsKey(e)))
+                else if (destinations.Any(dest => !OutgoingEdges.ContainsKey(dest)))
                     detached.Add(key); // If a key has any outgoing edges that are not in the graph, it is considered detached.
             }
 
@@ -204,7 +205,7 @@ namespace Dagger
                 IEnumerable<TKey> candidates =
                     layers[layers.Count - 1]
                     .SelectMany(previous => IncomingEdges.ContainsKey(previous) ? IncomingEdges[previous] : new HashSet<TKey>())
-                    .Where(key => Data.ContainsKey(key))
+                    .Where(key => OutgoingEdges.ContainsKey(key))
                     .Concat(unsatisfiedKeys)
                     .Distinct();
 
