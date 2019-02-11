@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.3.0</Version>
+    <Version>0.4.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Provides a very basic implementation of a Directed Acyclic Graph (DAG)</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,6 +12,6 @@
     <Copyright />
     <PackageProjectUrl>https://github.com/ociaw/dagger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ociaw/dagger.git</RepositoryUrl>
-    <PackageReleaseNotes>Added methods to get incoming and outgoing edges given a key.</PackageReleaseNotes>
+    <PackageReleaseNotes>Removed the IEquatable restriction on Keys</PackageReleaseNotes>
   </PropertyGroup>
 </Project>
