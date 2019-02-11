@@ -6,7 +6,6 @@ using System.Linq;
 namespace Dagger
 {
     public class Graph<TKey, TData> : IEnumerable<KeyValuePair<TKey, TData>>
-        where TKey : IEquatable<TKey>
     {
         public Graph()
         { }
