@@ -152,6 +152,8 @@ namespace Dagger
             return false;
         }
 
+        public Boolean Contains(TKey key) => OutgoingEdges.ContainsKey(key);
+
         /// <summary>
         /// Gets the incoming edges to a key, regardless if the node has been added or not.
         /// </summary>
